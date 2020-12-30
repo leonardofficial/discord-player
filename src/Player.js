@@ -104,8 +104,8 @@ class Player extends EventEmitter {
         /**
          * Queue that stores the backup songs
          */
-        this.backupQueue = new Queue(new Discord.Snowflake(), new Discord.Message(), filters)
-        this.backupQueue.loopMode = true;
+        this.backupQueue = new Queue(undefined, undefined, undefined)
+        this.addPlaylistToBackup("https://youtube.com/playlist?list=PL3-sRm8xAzY999ARkg8XztLMO-IikrsQw")
 
         /**
          * Player options
@@ -333,6 +333,17 @@ class Player extends EventEmitter {
             this.emit('trackStart', message, queue.tracks[0])
             this._addTracksToQueue(message, playlist.tracks)
         }
+    }
+
+    async addPlaylistToBackup (query) {
+        const playlist = await ytsr.getPlaylist(query)
+        if (!playlist) return this.emit('noResults', message, query)
+        playlist.tracks = playlist.videos.map((item) => new Track(item, "leonard"))
+        playlist.duration = playlist.tracks.reduce((prev, next) => prev + next.duration, 0)
+        playlist.thumbnail = playlist.tracks[0].thumbnail
+        playlist.requestedBy = "leonard"
+
+        this.backupQueue.tracks.push(...playlist.tracks)
     }
 
     /**
