@@ -104,7 +104,7 @@ class Player extends EventEmitter {
         /**
          * Queue that stores the backup songs
          */
-        this.backupQueue = new Queue(undefined, undefined, undefined)
+        this.backupQueue = new Queue(undefined, undefined, filters)
         this.addPlaylistToBackup("https://youtube.com/playlist?list=PL3-sRm8xAzY999ARkg8XztLMO-IikrsQw")
 
         /**
