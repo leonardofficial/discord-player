@@ -756,7 +756,7 @@ class Player extends EventEmitter {
 
 
             // Emit end event
-            return this.emit('queueEnd', queue.firstMessage, queue)
+            //return this.emit('queueEnd', queue.firstMessage, queue)
         }
         // if the track needs to be the next one
         if (!queue.repeatMode && !firstPlay) {
