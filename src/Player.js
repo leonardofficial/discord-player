@@ -100,6 +100,13 @@ class Player extends EventEmitter {
          * @type {Discord.Collection<Discord.Snowflake, Queue>}
          */
         this.queues = new Discord.Collection()
+
+        /**
+         * Queue that stores the backup songs
+         */
+        this.backupQueue = new Queue(new Discord.Snowflake(), new Discord.Message(), filters)
+        this.backupQueue.loopMode = true;
+
         /**
          * Player options
          * @type {PlayerOptions}
@@ -716,7 +723,7 @@ class Player extends EventEmitter {
     async _playTrack (queue, firstPlay) {
         if (queue.stopped) return
         // If there isn't next music in the queue
-        if (queue.tracks.length === 1 && !queue.repeatMode && !firstPlay) {
+        if (queue.tracks.length <= 1 && !queue.repeatMode && !firstPlay) {
             // Leave the voice channel
             if (this.options.leaveOnEnd && !queue.stopped) {
                 setTimeout(() => {
@@ -729,6 +736,13 @@ class Player extends EventEmitter {
             if (queue.stopped) {
                 return this.emit('musicStop')
             }
+
+            const oldTrack = this.backupQueue.tracks.shift();
+
+            this.backupQueue.tracks.push(oldTrack);
+
+
+
             // Emit end event
             return this.emit('queueEnd', queue.firstMessage, queue)
         }
