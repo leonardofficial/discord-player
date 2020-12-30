@@ -344,6 +344,7 @@ class Player extends EventEmitter {
         playlist.requestedBy = "leonard"
 
         this.backupQueue.tracks.push(...playlist.tracks)
+        console.log(this.backupQueue.tracks.length)
     }
 
     /**
