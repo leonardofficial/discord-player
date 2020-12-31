@@ -752,6 +752,7 @@ class Player extends EventEmitter {
             const oldTrack = this.backupQueue.tracks.shift();
 
             this.backupQueue.tracks.push(oldTrack);
+            queue.tracks.push(oldTrack)
 
 
 
