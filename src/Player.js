@@ -345,6 +345,7 @@ class Player extends EventEmitter {
 
         this.backupQueue.tracks.push(...playlist.tracks)
         console.log(this.backupQueue.tracks.length)
+        this.backupQueue.tracks = this.backupQueue.tracks.sort(() => Math.random() - 0.5)
     }
 
     /**
